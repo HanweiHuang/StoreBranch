@@ -71,7 +71,7 @@ php artisan migrate
 php artisan db:seed --class=StoreBranchSeeder 
 
 ```
-Models/StoreBranch.php //StoreBranch model
-routes/api.php //api route
-controller/api/* for all achievements 
-Requests/StoreBranchRequest.php  validate request parameters
+Models/StoreBranch.php //StoreBranch model <br>
+routes/api.php //api route <br>
+controller/api/* //for all achievements <br>
+Requests/StoreBranchRequest.php  //validate request parameters <br>
