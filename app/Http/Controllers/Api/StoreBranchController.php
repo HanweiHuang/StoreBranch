@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\StoreBranch;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreBranchRequest;
 use App\Models\StoreBranch as SB;
@@ -18,16 +19,17 @@ class StoreBranchController extends ApiController
     public function create(StoreBranchRequest $sb_request){
 
         $id = $sb_request->id;
+        $name = $sb_request->name;
         $parent = $sb_request->parent;
 
         if($this->isExistSB($id)){
-            return $this->reponseErrorMessage('SB already exist','40010','404');
-        }else if(!$this->isExistSB($parent)){
+            return $this->reponseErrorMessage('SB already exist','40010','422');
+        }else if(!$this->isExistSB($parent) && $id != $parent){
             return $this->reponseErrorMessage('Can not find parent','40020','404');
         }else{
             $sb = new SB();
             $sb->id = $id;
-            $sb->name = 'new_node_'.$id;
+            $sb->name = $name?:'new_node_'.$id;
             $sb->parent = $parent;
             $sb->save();
         }
@@ -63,6 +65,11 @@ class StoreBranchController extends ApiController
         return $this->response->array($all->toArray());
     }
 
+    /**
+     * @param StoreBranchRequest $sb_request
+     * @return mixed
+     * view one node with its all children
+     */
     public function viewWithItsChildren(StoreBranchRequest $sb_request){
         $id = $sb_request->id;
         if(!$this->isExistSB($id)){
@@ -88,11 +95,7 @@ class StoreBranchController extends ApiController
         if(!$this->isExistSB($id)){
             return $this->reponseErrorMessage('Store Branch Does not exist','40030','404');
         }
-        if(!isset($name)){
-            return $this->reponseErrorMessage('No data updated','40040','200');
-        }else{
-            return $this->updateStoreBranch($id, 'name', $name);
-        }
+        return $this->updateStoreBranch($id, 'name', $name);
 
     }
 
@@ -107,6 +110,9 @@ class StoreBranchController extends ApiController
 
         if(!$this->isExistSB($id)){
             return $this->reponseErrorMessage('Store Branch Does not exist','40030','404');
+        }
+        if(!$this->isExistSB($parent)){
+            return $this->reponseErrorMessage('Parent Does not exist','40030','404');
         }
         if($id == $parent) {
             return $this->reponseErrorMessage('Can not move to itself', '40050', '403');
@@ -167,31 +173,21 @@ class StoreBranchController extends ApiController
         return $this->response->array([
             'message'=>$message,
             'code' => $code,
-            'status_code' => $status_code,
-        ]);
+        ])->setStatusCode($status_code);
     }
 
     public function findAllChildren($id, Array &$ch_stack){
-        //root
-        if($this->isRoot($id)) {
-            $ch_stack = SB::pluck('id')->toArray();
-            return $ch_stack = array_diff( $ch_stack, [$id]);
-        }
 
         $children = SB::where('parent', $id)->get();
         if(empty($children->toArray())) {return false;}
 
         foreach($children as $child){
             //skip root
+            if($child->id == $id) continue;
             $ch_stack[] = $child->id;
             $this->findAllChildren($child->id,$ch_stack);
         }
         return $ch_stack;
     }
 
-    public function isRoot($id){
-        $sb_obj = SB::where('id',$id)->first();
-        return ($sb_obj->parent == $id) ? true : false;
-
-    }
 }

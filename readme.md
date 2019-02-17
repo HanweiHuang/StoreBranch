@@ -29,7 +29,7 @@ url: 'http://your_domain/api/moveStoreBranch'
 | Parent | parent id | numeric | required |
 
 
-View A Single Store Branch
+view A Single Store Branch
 Method GET
 url: 'http://your_domain/api/viewStoreBranch'
 |Name|Description|Type|Para|
@@ -57,3 +57,17 @@ url: 'http://your_domain/api/deleteStoreBranch'
 |Name|Description|Type|Para|
 |---|---|---|
 | id | identity |numeric| required |
+
+
+#Doc code
+```
+//migrate database
+php artisan migrate 
+//run command to initial a tree in database
+php artisan db:seed --class=StoreBranchSeeder 
+
+```
+Models/StoreBranch.php //StoreBranch model
+routes/api.php //api route
+controller/api/* for all achievements 
+Requests/StoreBranchRequest.php  validate request parameters
