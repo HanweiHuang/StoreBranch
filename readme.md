@@ -1,67 +1,68 @@
 #API
 
-Add a Store Branch:
-Method POST
-url: 'http://your_domain/api/addStoreBranch'
+Add a Store Branch: <br>
+Method POST <br>
+url: 'http://your_domain/api/addStoreBranch' <br>
 
 |Name|Description|Type|Type|
 |---|---|---|---|
 |id|identity|numeric|required|
 | name | name | string | option |
 | parent | parent id | numeric | option |
+<br>
 
-
-Update a Store Branch
-Method PUT
-url: 'http://your_domain/api/addStoreBranch'
+Update a Store Branch <br>
+Method PUT <br>
+url: 'http://your_domain/api/addStoreBranch' <br>
 
 |Name|Description|Type|Type|
 |---|---|---|---|
 | id | identity |numeric| required |
 | name | name | string | required |
+<br>
 
-
-Move A Store Branch
-Method PUT
-url: 'http://your_domain/api/moveStoreBranch'
+Move A Store Branch <br>
+Method PUT <br>
+url: 'http://your_domain/api/moveStoreBranch' <br>
 
 |Name|Description|Type|Para|
 |---|---|---|---|
 | id | identity |numeric| required |
 | Parent | parent id | numeric | required |
+<br>
 
-
-view A Single Store Branch
-Method GET
-url: 'http://your_domain/api/viewStoreBranch'
-
-|Name|Description|Type|Para|
-|---|---|---|---|
-| id | identity |numeric| required |
-
-
-view A Store Branch with its all children
-Method GET
-url: 'http://your_domain/api/viewGroupStoreBranch'
+view A Single Store Branch<br>
+Method GET<br>
+url: 'http://your_domain/api/viewStoreBranch'<br>
 
 |Name|Description|Type|Para|
 |---|---|---|---|
 | id | identity |numeric| required |
+<br>
 
+view A Store Branch with its all children<br>
+Method GET<br>
+url: 'http://your_domain/api/viewGroupStoreBranch'<br>
 
-view A Store Branch with its all children
-Method GET
-url: 'http://your_domain/api/viewAllStoreBranch'
+|Name|Description|Type|Para|
+|---|---|---|---|
+| id | identity |numeric| required |
+<br>
+
+view A Store Branch with its all children<br>
+Method GET<br>
+url: 'http://your_domain/api/viewAllStoreBranch'<br>
 No Parameters Needed
-
-
-delete A Store Branch with its all children
-Method DELETE
-url: 'http://your_domain/api/deleteStoreBranch'
+<br>
+<br>
+delete A Store Branch with its all children<br>
+Method DELETE<br>
+url: 'http://your_domain/api/deleteStoreBranch'<br>
 
 |Name|Description|Type|Para|
 |---|---|---|---|
 | id | identity |numeric| required |
+<br>
 
 #Doc code
 ```
