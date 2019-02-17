@@ -64,7 +64,7 @@ url: 'http://your_domain/api/deleteStoreBranch'<br>
 | id | identity |numeric| required |
 <br>
 
-#seed and migrate code example
+#seed and migrate code example:
 ```
 //migrate database
 php artisan migrate 
@@ -73,11 +73,11 @@ php artisan db:seed --class=StoreBranchSeeder
 
 ```
 
-#import file description<br>
+#important file description:<br>
 Models/StoreBranch.php //StoreBranch model <br>
 routes/api.php //api route <br>
 controller/api/* //for all achievements <br>
 Requests/StoreBranchRequest.php  //validate request parameters <br>
 
-#api package 
+#api package: <br> 
 dingo
