@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreBranchRequest;
 use App\Models\StoreBranch as SB;
 use phpDocumentor\Reflection\Types\Integer;
+use App\Services\Interfaces\NodeTree;
 
 class StoreBranchController extends ApiController
 {
@@ -16,7 +17,7 @@ class StoreBranchController extends ApiController
      * @return mixed
      * create a store branch
      */
-    public function create(StoreBranchRequest $sb_request){
+    public function create(StoreBranchRequest $sb_request, NodeTree $nt){
 
         $id = $sb_request->id;
         $name = $sb_request->name;
@@ -27,11 +28,12 @@ class StoreBranchController extends ApiController
         }else if(!$this->isExistSB($parent) && $id != $parent){
             return $this->reponseErrorMessage('Can not find parent','40020','404');
         }else{
-            $sb = new SB();
-            $sb->id = $id;
-            $sb->name = $name?:'new_node_'.$id;
-            $sb->parent = $parent;
-            $sb->save();
+            $data = [
+                'id' => $id,
+                'parent' => $parent,
+                'name' => $name,
+            ];
+           $nt->createNode($data);
         }
         return $this->response->array([
             'message' => 'success',
@@ -46,12 +48,12 @@ class StoreBranchController extends ApiController
      * @return mixed
      * view one store branch
      */
-    public function view(StoreBranchRequest $sb_request){
+    public function view(StoreBranchRequest $sb_request, NodeTree $nt){
         $id = $sb_request->id;
         if(!$this->isExistSB($id)){
             return $this->reponseErrorMessage('Store Branch Does not exist','40030','404');
         }else{
-            $sb_obj = SB::where('id',$id)->first();
+            $sb_obj = $nt->viewNode($id);
             return $this->response->array($sb_obj->toArray());
         }
     }
